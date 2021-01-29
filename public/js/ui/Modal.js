@@ -1,53 +1,25 @@
-/**
- * Класс Modal отвечает за
- * управление всплывающими окнами.
- * В первую очередь это открытие или
- * закрытие имеющихся окон
- * */
 class Modal {
-  /**
-   * Устанавливает текущий элемент в свойство element
-   * Регистрирует обработчики событий с помощью Modal.registerEvents()
-   * Если переданный элемент не существует,
-   * необходимо выкинуть ошибку.
-   * */
   constructor( element ) {
-
+    if ( !element ) { throw new Error( 'Не передан элемент всплывающего окна!' )
+    } else {
+      this.element = element;
+      this.registerEvents() }
   }
 
-  /**
-   * При нажатии на элемент с data-dismiss="modal"
-   * должен закрыть текущее окно
-   * (с помощью метода Modal.onClose)
-   * */
   registerEvents() {
+    Array.from(this.element.querySelectorAll('[data-dismiss = "modal"]')).forEach(elem => {
+      elem.addEventListener( 'click', () => this.onClose() )})
+    }
 
-  }
+  onClose() { this.close() }
 
-  /**
-   * Срабатывает после нажатия на элементы, закрывающие окно.
-   * Закрывает текущее окно (Modal.close())
-   * */
-  onClose( e ) {
-
-  }
-  /**
-   * Удаляет обработчики событий
-   * */
   unregisterEvents() {
-
+    Array.from( this.element.querySelectorAll( '[data-dismiss = "modal"]' )).forEach( elem => {
+      elem.removeEventListener('click', () => this.onClose())})
   }
-  /**
-   * Открывает окно: устанавливает CSS-свойство display
-   * со значением «block»
-   * */
-  open() {
 
-  }
-  /**
-   * Закрывает окно: удаляет CSS-свойство display
-   * */
-  close(){
+  open() { this.element.style.display = 'block' }
 
-  }
+  close() { this.element.style.display = '' }
+
 }
